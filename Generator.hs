@@ -91,7 +91,7 @@ getElementSize (base, mMemCount, _) = fromMaybe floatSize mMemCount `quot` 8
 
 -- | Create a tuple match or construction given a set of expressions or patterns.
 matchTuple :: Bool -> [String] -> String
-matchTuple p vars | length vars < maxTupleSize = "(" ++ intercalate ", " vars ++ ")"
+matchTuple p vars | length vars <= maxTupleSize = "(" ++ intercalate ", " vars ++ ")"
                   | p                          = "(Tuple64 " ++ unwords (map addParens vars) ++ ")"
                   | otherwise                  = "Tuple64 " ++ unwords (map addParens vars)
 
@@ -103,7 +103,7 @@ addParens s' = if needsParens s' then "(" ++ s' ++ ")" else s'
 
 -- | Tuple type constructor of the given size.
 tupleType :: Int -> String -> String
-tupleType size t | size < maxTupleSize = "(" ++ intercalate ", " (replicate size t) ++ ")"
+tupleType size t | size <= maxTupleSize = "(" ++ intercalate ", " (replicate size t) ++ ")"
                  | otherwise           = "Tuple64 " ++ t
 
 -- | Check if this is a Float or Double vector
