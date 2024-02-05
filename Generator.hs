@@ -843,6 +843,7 @@ classFile genPatSyns doRules = unlines $
     ["{-# LANGUAGE TypeFamilies          #-}"
     ,"{-# LANGUAGE MultiParamTypeClasses #-}"
     ,"{-# LANGUAGE FlexibleContexts      #-}"
+    ,"{-# LANGUAGE TypeOperators         #-}"
     ,if genPatSyns /= NoPats then "{-# LANGUAGE PatternSynonyms       #-}" else ""
     ,if genPatSyns /= NoPats then "{-# LANGUAGE ViewPatterns          #-}" else ""
     ,if doRules then "{-# LANGUAGE MagicHash             #-}" else ""
