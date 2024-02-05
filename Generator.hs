@@ -61,13 +61,13 @@ getPrimName td@(_, _, 1) = getUnderlyingPrimType $ getBaseType td
 getPrimName typeDesc     = getDataName typeDesc ++ "#"
 
 getUnderlyingPrimType :: String -> String
-getUnderlyingPrimType "Word8"  = "Word#"
-getUnderlyingPrimType "Word16" = "Word#"
-getUnderlyingPrimType "Word32" = "Word#"
+getUnderlyingPrimType "Word8"  = "Word8#"
+getUnderlyingPrimType "Word16" = "Word16#"
+getUnderlyingPrimType "Word32" = "Word32#"
 getUnderlyingPrimType "Word64" = "RealWord64#"
-getUnderlyingPrimType "Int8"   = "Int#"
-getUnderlyingPrimType "Int16"  = "Int#"
-getUnderlyingPrimType "Int32"  = "Int#"
+getUnderlyingPrimType "Int8"   = "Int8#"
+getUnderlyingPrimType "Int16"  = "Int16#"
+getUnderlyingPrimType "Int32"  = "Int32#"
 getUnderlyingPrimType "Int64"  = "RealInt64#"
 getUnderlyingPrimType t        = t ++ "#"
 
@@ -1057,7 +1057,7 @@ fileHeader td = unlines $
     ,""
     ] ++ (if is64 td then
         ["#if WORD_SIZE_IN_BITS == 64"
-        ,if isInt td then "type RealInt64# = Int#" else "type RealWord64# = Word#"
+        ,if isInt td then "type RealInt64# = Int64#" else "type RealWord64# = Word64#"
         ,"#elif WORD_SIZE_IN_BITS == 32"
         ,if isInt td then "type RealInt64# = Int64#" else "type RealWord64# = Word64#"
         ,"#else"
