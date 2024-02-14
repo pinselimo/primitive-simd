@@ -40,7 +40,7 @@ primitiveTypes = [("Int",    Just  8, 16, 64)
                  ,("Word",   Just 32,  4, 16)
                  ,("Word",   Just 64,  2,  8)
                  ,("Float",  Nothing,  4, 16)
-                 ,("Double", Nothing,  2, 16)
+                 ,("Double", Nothing,  2, 32)
                  ]
 
 -- | Description of all primitive types, expanded form
@@ -953,7 +953,7 @@ classFile genPatSyns doRules = unlines $
             p = getPrimName td
             in "{-# RULES \"unpack/pack " ++ p ++ "\" forall x . unpack" ++ p ++ " (pack" ++ p ++ " x) = x #-}\n" ++
                "{-# RULES \"pack/unpack " ++ p ++ "\" forall x . pack" ++ p ++ " (unpack" ++ p ++ " x) = x #-}"
-        isRealPrimitiveType td = getPrimName td /= "DoubleX16#"
+        isRealPrimitiveType td = getPrimName td /= "DoubleX16#" && getPrimName td /= "DoubleX32#"
 
 exposedFile :: PatsMode -> Int -> String
 exposedFile genPatSyns maxCapability = unlines $

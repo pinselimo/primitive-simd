@@ -105,6 +105,7 @@ library
     Data.Primitive.SIMD.DoubleX4
     Data.Primitive.SIMD.DoubleX8
     Data.Primitive.SIMD.DoubleX16
+    Data.Primitive.SIMD.DoubleX32
   -- custom field listing all modules which we exclude from source distributions
   autogen-modules:
     Data.Primitive.SIMD
@@ -140,6 +141,7 @@ library
     Data.Primitive.SIMD.DoubleX4
     Data.Primitive.SIMD.DoubleX8
     Data.Primitive.SIMD.DoubleX16
+    Data.Primitive.SIMD.DoubleX32
   other-extensions:
     UnboxedTuples,
     MagicHash,
