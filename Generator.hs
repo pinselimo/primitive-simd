@@ -350,8 +350,8 @@ genTypeDecl maxCapability typeDesc = unlines
             else ""
         primInstance        = unlines
             ["instance Prim " ++ dataName ++ " where"
-            ,"    sizeOf# a                   = let !(I# x) = PTy.sizeOf a in x"
-            ,"    alignment# a                = let !(I# x) = PTy.alignment a in x"
+            ,"    sizeOf# a                   = let !(I# x) = vectorSize a * elementSize a in x"
+            ,"    alignment# a                = let !(I# x) = FSt.sizeOf a in x"
             ,"    indexByteArray# ba i        = index" ++ dataName ++ "Array (ByteArray ba) (I# i)"
             ,"    readByteArray# mba i s      = let (ST r) = read" ++ dataName ++ "Array (MutableByteArray mba) (I# i) in r s"
             ,"    writeByteArray# mba i v s   = let (ST r) = write" ++ dataName ++ "Array (MutableByteArray mba) (I# i) v in case r s of { (# s', _ #) -> s' }"
