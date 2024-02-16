@@ -1006,7 +1006,7 @@ exposedFile genPatSyns maxCapability = unlines $
             0 -> "Nothing"
             n -> "Just SSE" ++ show n
         tuple64 = if maxTupleSize < 64 then ["    ,Tuple64(..)"] else []
-        types = map (\ td -> "    ," ++ getDataName td) allPrimitiveTypes
+        types = map (\ td -> "    ," ++ getDataName td ++ "(..)") allPrimitiveTypes
         patSyns = if genPatSyns /= NoPats then ["    ,pattern Vec" ++ show (n :: Int) | n <- [2, 4, 8, 16, 32, 64]] else []
         imports = map (\ td -> "import Data.Primitive.SIMD." ++ getDataName td) allPrimitiveTypes
 
@@ -1023,7 +1023,7 @@ fileHeader td = unlines $
     ,""
     ,if is64 td then "#include \"MachDeps.h\"" else ""
     ,""
-    ,"module Data.Primitive.SIMD." ++ getDataName td ++ " (" ++ getDataName td ++ ") where"
+    ,"module Data.Primitive.SIMD." ++ getDataName td ++ " (" ++ getDataName td ++ "(..)) where"
     ,""
     ,"-- This code was AUTOMATICALLY generated, DO NOT EDIT!"
     ,""
