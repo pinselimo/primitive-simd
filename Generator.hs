@@ -46,6 +46,7 @@ primitiveTypes = [("Int",    Just  8, 16, 64)
 -- | Description of all primitive types, expanded form
 allPrimitiveTypes :: [TypeDesc]
 allPrimitiveTypes = concatMap getPrimitiveTypes primitiveTypes
+                 ++ [("Double", Nothing, 20)]
     where
         getPrimitiveTypes (base, mMemCount, startSize, endSize) = if startSize > endSize
             then []
@@ -222,7 +223,7 @@ genTypeDecl maxCapability typeDesc = unlines
     ,boundedInstance
     ,fractionalInstance
     ,floatingInstance
-    ,storableInstance
+    ,if getPrimName typeDesc /= "DoubleX20#" then storableInstance else ""
     ,vectorInstance
     ,intVectorInstance
     ,primInstance
@@ -351,7 +352,7 @@ genTypeDecl maxCapability typeDesc = unlines
         primInstance        = unlines
             ["instance Prim " ++ dataName ++ " where"
             ,"    sizeOf# a                   = let !(I# x) = vectorSize a * elementSize a in x"
-            ,"    alignment# a                = let !(I# x) = FSt.sizeOf a in x"
+            ,"    alignment# a                = let !(I# x) = vectorSize a * elementSize a in x"
             ,"    indexByteArray# ba i        = index" ++ dataName ++ "Array (ByteArray ba) (I# i)"
             ,"    readByteArray# mba i s      = let (ST r) = read" ++ dataName ++ "Array (MutableByteArray mba) (I# i) in r s"
             ,"    writeByteArray# mba i v s   = let (ST r) = write" ++ dataName ++ "Array (MutableByteArray mba) (I# i) v in case r s of { (# s', _ #) -> s' }"
@@ -953,7 +954,7 @@ classFile genPatSyns doRules = unlines $
             p = getPrimName td
             in "{-# RULES \"unpack/pack " ++ p ++ "\" forall x . unpack" ++ p ++ " (pack" ++ p ++ " x) = x #-}\n" ++
                "{-# RULES \"pack/unpack " ++ p ++ "\" forall x . pack" ++ p ++ " (unpack" ++ p ++ " x) = x #-}"
-        isRealPrimitiveType td = getPrimName td /= "DoubleX16#" && getPrimName td /= "DoubleX32#"
+        isRealPrimitiveType td = getPrimName td /= "DoubleX16#" && getPrimName td /= "DoubleX32#" && getPrimName td /= "DoubleX20#"
 
 exposedFile :: PatsMode -> Int -> String
 exposedFile genPatSyns maxCapability = unlines $
